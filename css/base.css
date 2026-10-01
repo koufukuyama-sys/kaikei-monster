@@ -3,11 +3,16 @@
    どのiPadでも成立するように mm 基準で組み直したもの。 */
 
 :root {
-  /* 実寸換算。calibrate.js が起動時に実際の値を書き込む */
+  /* calibrate.js が起動時とリサイズ時に実際の値を書き込む。
+       --mm … 実寸の1mm。**お金の絵だけ**がこれを使う（JS側で計算）
+       --u  … UIの寸法の単位。画面サイズに追従する
+              （iPad縦では --u ≒ --mm。iPhoneのような小さい画面では小さくなり、
+                目やテンキーが画面からはみ出さない） */
   --px-per-mm: 5.25;
   --mm: 5.25px;
+  --u: 5.25px;
 
-  /* 下のコントロールの高さ(mm)
+  /* 下のコントロールの高さ（デザイン上のmm。実際には --u 倍して使う）
      open … テンキー全面（ねているとき）
      bar  … 細いバーに畳んで口を画面いっぱいにする（入力中） */
   --controls-open-mm: 107;
@@ -41,7 +46,9 @@ button { font: inherit; border: 0; margin: 0; padding: 0; cursor: pointer; backg
 
 #stage {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0; right: 0;
+  height: 100%;
+  height: 100svh;   /* iOS Safari の下部ツールバーに隠れないように */
   display: flex;
   flex-direction: column;
   padding:
@@ -61,28 +68,28 @@ button { font: inherit; border: 0; margin: 0; padding: 0; cursor: pointer; backg
 
 #face { position: absolute; inset: 0; z-index: 0; }
 .freckle { position: absolute; border-radius: 50%; }
-.f1 { left: 4.5%;  top: 2.5%;  width: calc(7.6 * var(--mm)); aspect-ratio: 1; }
-.f2 { left: 10.5%; top: 7.5%;  width: calc(3.8 * var(--mm)); aspect-ratio: 1; }
-.f3 { right: 4.5%; top: 7.5%;  width: calc(5.0 * var(--mm)); aspect-ratio: 1; }
+.f1 { left: 4.5%;  top: 2.5%;  width: calc(7.6 * var(--u)); aspect-ratio: 1; }
+.f2 { left: 10.5%; top: 7.5%;  width: calc(3.8 * var(--u)); aspect-ratio: 1; }
+.f3 { right: 4.5%; top: 7.5%;  width: calc(5.0 * var(--u)); aspect-ratio: 1; }
 
 /* 目 */
 #eyes {
   position: relative;
   z-index: 3;
   flex: 0 0 auto;
-  height: calc(var(--eyes-mm) * var(--mm));
+  height: calc(var(--eyes-mm) * var(--u));
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: calc(7 * var(--mm));
+  gap: calc(7 * var(--u));
   transition: height .38s cubic-bezier(.34, 1.3, .64, 1);
 }
 /* ねているときは顔が広いので、目を顔の真ん中あたりまで下げる（スタイルガイドの構図） */
 body[data-state="sleep"] #eyes { height: 80%; }
 
 .eye {
-  width: calc(var(--eye-mm) * var(--mm));
-  height: calc(var(--eye-mm) * var(--mm));
+  width: calc(var(--eye-mm) * var(--u));
+  height: calc(var(--eye-mm) * var(--u));
   border-radius: 50%;
   flex: 0 0 auto;
 }
@@ -117,11 +124,11 @@ body.peek #mode-label { visibility: visible; }
 #zzz {
   position: absolute;
   z-index: 4;
-  top: calc(1 * var(--mm));
-  right: calc(2 * var(--mm));
+  top: calc(1 * var(--u));
+  right: calc(2 * var(--u));
   display: flex;
   align-items: flex-end;
-  gap: calc(1 * var(--mm));
+  gap: calc(1 * var(--u));
   pointer-events: none;
   opacity: 0;
   transition: opacity .3s ease;
@@ -133,7 +140,7 @@ body[data-state="sleep"]:not(.peek) #zzz { opacity: 1; }
 @keyframes km-zzz {
   0%   { opacity: 0; transform: translateY(0); }
   40%  { opacity: 1; }
-  100% { opacity: 0; transform: translateY(calc(-30 * var(--mm) / 5.25)); }
+  100% { opacity: 0; transform: translateY(calc(-5.7 * var(--u))); }
 }
 
 /* とじた口 / もぐもぐの口（#mouth とは別レイヤー。scaleYの影響を受けない） */
@@ -156,7 +163,7 @@ body[data-chew] #mouth-chew-art { opacity: 1; }
   position: absolute;
   left: 0; right: 0;
   top: 50%;
-  margin-top: calc(28 * var(--mm));
+  margin-top: calc(28 * var(--u));
   z-index: 3;
   text-align: center;
   opacity: 0;
@@ -179,8 +186,8 @@ body[data-chew] .cheeks--big circle {
   z-index: 1;
   flex: 1 1 auto;
   min-height: 0;
-  margin: 0 0 calc(var(--gap-mm) * var(--mm));
-  padding: calc(var(--lip-mm) * var(--mm));
+  margin: 0 0 calc(var(--gap-mm) * var(--u));
+  padding: calc(var(--lip-mm) * var(--u));
   transform-origin: 50% 0;
   transition: transform .38s cubic-bezier(.34, 1.56, .64, 1), opacity .2s ease;
 }
@@ -193,7 +200,7 @@ body[data-chew] #mouth { transform: scaleY(.05); opacity: 0; }
   position: absolute;
   top: 0; left: 0;
   width: 100%;
-  height: calc(7.6 * var(--mm));
+  height: calc(7.6 * var(--u));
   pointer-events: none;
 }
 
@@ -201,7 +208,7 @@ body[data-chew] #mouth { transform: scaleY(.05); opacity: 0; }
 #tray {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  top: calc(7.6 * var(--mm));
+  top: calc(7.6 * var(--u));
 }
 
 #mouth-text {
@@ -266,9 +273,9 @@ body[data-state="thanks"] #sparkles { opacity: 1; }
   flex: 0 0 auto;
   min-height: 0;
   overflow: hidden;
-  height: min(calc(var(--controls-mm) * var(--mm)), 56vh);
-  gap: calc(var(--gap-mm) * var(--mm));
-  padding: calc(var(--gap-mm) * var(--mm));
+  height: min(calc(var(--controls-mm) * var(--u)), 56vh);
+  gap: calc(var(--gap-mm) * var(--u));
+  padding: calc(var(--gap-mm) * var(--u));
   transition: height .32s cubic-bezier(.34, 1.3, .64, 1);
 }
 
@@ -279,7 +286,7 @@ body[data-state="thanks"] #sparkles { opacity: 1; }
   --controls-mm: var(--controls-open-mm);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: calc(20 * var(--mm)) repeat(4, 1fr);
+  grid-template-rows: calc(20 * var(--u)) repeat(4, 1fr);
 }
 #controls[data-keypad="open"] #amount { grid-column: 1 / -1; }
 #controls[data-keypad="open"] .key--zero { grid-column: 1 / 4; grid-row: 5; }
@@ -300,10 +307,10 @@ body[data-state="thanks"] #sparkles { opacity: 1; }
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
-  gap: calc(1.5 * var(--mm));
+  gap: calc(1.5 * var(--u));
   min-width: 0;
   overflow: hidden;
-  padding: 0 calc(4 * var(--mm));
+  padding: 0 calc(4 * var(--u));
 }
 
 .key, #ok {
@@ -323,8 +330,8 @@ body[data-state="eating"] .key, body[data-state="thanks"] .key { pointer-events:
 #amount.shake { animation: km-shake 240ms; }
 @keyframes km-shake {
   0%, 100% { transform: translateX(0); }
-  25%, 75% { transform: translateX(calc(-12 * var(--mm) / 5.25)); }
-  50%      { transform: translateX(calc(12 * var(--mm) / 5.25)); }
+  25%, 75% { transform: translateX(calc(-2.3 * var(--u))); }
+  50%      { transform: translateX(calc(2.3 * var(--u))); }
 }
 
 /* ---------- 隠し設定・較正 ---------- */
@@ -349,6 +356,18 @@ body[data-state="eating"] .key, body[data-state="thanks"] .key { pointer-events:
 .cal-scale { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; }
 .cal-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
 .cal-buttons button { flex: 1 1 0; padding: 14px 10px; }
+
+/* スマホ縦持ち。
+   画面が小さいとテンキーのキーが薄くなりすぎて幼児には押しにくいので、
+   コントロールを厚くして口を少し削る。
+   スマホでは どのみちお金を実寸で出せない（画面幅65mm < お札150mm）ので、
+   口の広さより押しやすさを優先する。 */
+@media (max-width: 600px) and (orientation: portrait) {
+  :root {
+    --controls-open-mm: 150;
+    --controls-bar-mm: 26;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001ms !important; transition-duration: .08s !important; }

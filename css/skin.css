@@ -49,19 +49,19 @@
   --km-thanks: #FFD23F;
 
   /* --- 形（スタイルガイドの px を mm に換算: px ÷ 5.25） --- */
-  --km-r-key: calc(5.3 * var(--mm));
-  --km-r-panel: calc(9.9 * var(--mm));
-  --km-r-mouth: calc(13.7 * var(--mm));
-  --km-key-depth: calc(1.5 * var(--mm));
+  --km-r-key: calc(5.3 * var(--u));
+  --km-r-panel: calc(9.9 * var(--u));
+  --km-r-mouth: calc(13.7 * var(--u));
+  --km-key-depth: calc(1.5 * var(--u));
 
-  --km-fs-key: calc(11.4 * var(--mm));
-  --km-fs-display: calc(15.2 * var(--mm));
-  --km-fs-display-bar: calc(12.2 * var(--mm));
-  --km-fs-yen: calc(6.9 * var(--mm));
-  --km-fs-mode: calc(5.0 * var(--mm));
-  --km-fs-thanks: calc(25.1 * var(--mm));
-  --km-fs-munch: calc(21.3 * var(--mm));
-  --km-fs-zzz: calc(8.8 * var(--mm));
+  --km-fs-key: calc(11.4 * var(--u));
+  --km-fs-display: calc(15.2 * var(--u));
+  --km-fs-display-bar: calc(12.2 * var(--u));
+  --km-fs-yen: calc(6.9 * var(--u));
+  --km-fs-mode: calc(5.0 * var(--u));
+  --km-fs-thanks: calc(25.1 * var(--u));
+  --km-fs-munch: calc(21.3 * var(--u));
+  --km-fs-zzz: calc(8.8 * var(--u));
 
   /* ヒラギノ丸ゴは macOS / iPadOS に入っているので、
      オフラインでも雰囲気の近い丸ゴシックで表示される */
@@ -88,23 +88,23 @@ body {
 .eye-ink   { fill: var(--km-ink); }
 .eye-lash  { fill: none; stroke: var(--km-ink); stroke-linecap: round; }
 .eye { transition: transform 120ms; }
-.eye:active { transform: translateY(calc(1.5 * var(--mm))); }
+.eye:active { transform: translateY(calc(1.5 * var(--u))); }
 
 #mode-label {
   font-size: var(--km-fs-mode);
   line-height: 1;
-  padding: calc(1.6 * var(--mm)) calc(3.4 * var(--mm));
+  padding: calc(1.6 * var(--u)) calc(3.4 * var(--u));
   border-radius: 999px;
   background: #fff;
   color: var(--km-ink);
-  border: calc(.6 * var(--mm)) solid var(--km-ink);
+  border: calc(.6 * var(--u)) solid var(--km-ink);
 }
 body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
 
 #zzz { font-size: var(--km-fs-zzz); }
 #zzz span {
   color: #fff;
-  -webkit-text-stroke: calc(1.3 * var(--mm)) var(--km-ink);
+  -webkit-text-stroke: calc(1.3 * var(--u)) var(--km-ink);
   paint-order: stroke;
 }
 #zzz span:nth-child(2) { font-size: calc(var(--km-fs-zzz) * 1.35); }
@@ -119,7 +119,7 @@ body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
 #munch {
   font-size: var(--km-fs-munch);
   color: #fff;
-  -webkit-text-stroke: calc(1.7 * var(--mm)) var(--km-ink);
+  -webkit-text-stroke: calc(1.7 * var(--u)) var(--km-ink);
   paint-order: stroke;
   letter-spacing: .02em;
 }
@@ -130,7 +130,7 @@ body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
 }
 #mouth-inner {
   background: var(--km-mouth);
-  border-radius: calc(var(--km-r-mouth) - var(--lip-mm) * var(--mm));
+  border-radius: calc(var(--km-r-mouth) - var(--lip-mm) * var(--u));
 }
 #teeth path { fill: var(--km-tooth); }
 
@@ -141,13 +141,13 @@ body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
 
 /* トレイの枠（お金を置く範囲のめやす） */
 #tray {
-  border: calc(.6 * var(--mm)) dashed var(--km-tray-line);
-  border-radius: calc(6.9 * var(--mm));
+  border: calc(.6 * var(--u)) dashed var(--km-tray-line);
+  border-radius: calc(6.9 * var(--u));
 }
 
 /* ---------- おかね ---------- */
 
-.money { filter: drop-shadow(0 calc(.5 * var(--mm)) calc(1 * var(--mm)) rgba(0, 0, 0, .35)); }
+.money { filter: drop-shadow(0 calc(.5 * var(--u)) calc(1 * var(--u)) rgba(0, 0, 0, .35)); }
 
 /* ---------- コントロール ---------- */
 
@@ -160,7 +160,7 @@ body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
 #amount {
   background: #fff;
   border-radius: var(--km-r-key);
-  box-shadow: inset 0 calc(.8 * var(--mm)) 0 var(--km-display-inset);
+  box-shadow: inset 0 calc(.8 * var(--u)) 0 var(--km-display-inset);
   color: var(--km-ink);
 }
 #amount-value { font-size: var(--km-fs-display); line-height: 1; letter-spacing: -.02em; }
@@ -178,11 +178,11 @@ body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
 }
 .key:active {
   background: var(--km-key-pressed);
-  transform: translateY(calc(1.1 * var(--mm)));
-  box-shadow: 0 calc(.4 * var(--mm)) 0 var(--km-key-shadow);
+  transform: translateY(calc(1.1 * var(--u)));
+  box-shadow: 0 calc(.4 * var(--u)) 0 var(--km-key-shadow);
 }
 .key--sub { background: var(--km-key-sub); box-shadow: 0 var(--km-key-depth) 0 var(--km-key-sub-shadow); }
-.key--sub:active { background: var(--km-key-sub); box-shadow: 0 calc(.4 * var(--mm)) 0 var(--km-key-sub-shadow); }
+.key--sub:active { background: var(--km-key-sub); box-shadow: 0 calc(.4 * var(--u)) 0 var(--km-key-sub-shadow); }
 .key--sub svg path { fill: none; stroke: var(--km-ink); stroke-width: 3; stroke-linejoin: round; }
 .key--sub svg path.x { stroke-linecap: round; }
 
@@ -195,7 +195,7 @@ body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
   letter-spacing: .04em;
   transition: transform 80ms, box-shadow 80ms, background .2s, color .2s;
 }
-#ok:active { transform: translateY(calc(1.1 * var(--mm))); box-shadow: 0 calc(.4 * var(--mm)) 0 var(--km-ok-shadow); }
+#ok:active { transform: translateY(calc(1.1 * var(--u))); box-shadow: 0 calc(.4 * var(--u)) 0 var(--km-ok-shadow); }
 body[data-empty="1"] #ok,
 body[data-state="eating"] #ok,
 body[data-state="thanks"] #ok {

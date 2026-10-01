@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>iPadプレビュー — かいけいモンスター</title>
+<title>端末プレビュー — かいけいモンスター</title>
 <style>
   body { margin: 0; background: #22242b; color: #d8dae2; font: 13px/1.6 -apple-system, "Hiragino Sans", sans-serif; }
   header { display: flex; gap: 14px; align-items: center; padding: 10px 16px; flex-wrap: wrap; }
@@ -15,7 +15,7 @@
 </head>
 <body>
 <header>
-  <strong>iPadプレビュー</strong>
+  <strong>端末プレビュー</strong>
   <select id="dev"></select>
   <label>画面に合わせて縮小 <input id="fit" type="checkbox" checked></label>
   <button id="reload">リロード</button>
@@ -31,7 +31,12 @@ var DEVICES = [
   { name: 'iPad Pro 11"',         w: 834, h: 1194, inch: 11.0 },
   { name: 'iPad Pro 12.9"',       w: 1024, h: 1366, inch: 12.9 },
   { name: 'iPad mini 8.3"',       w: 744, h: 1133, inch: 8.3 },
-  { name: 'iPad 9.7"',            w: 768, h: 1024, inch: 9.7 }
+  { name: 'iPad 9.7"',            w: 768, h: 1024, inch: 9.7 },
+  { name: 'iPhone 16 Pro',        w: 402, h: 874, inch: 6.3 },
+  { name: 'iPhone 15 / 14 Pro',   w: 393, h: 852, inch: 6.1 },
+  { name: 'iPhone 13 / 14',       w: 390, h: 844, inch: 6.1 },
+  { name: 'iPhone 15 Pro Max',    w: 430, h: 932, inch: 6.7 },
+  { name: 'iPhone SE (第2/3世代)', w: 375, h: 667, inch: 4.7 }
 ];
 
 var sel = document.getElementById('dev');

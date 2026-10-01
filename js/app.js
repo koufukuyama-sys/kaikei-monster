@@ -77,17 +77,19 @@
     keepScreenAwake();
     registerServiceWorker();
 
-    // 画面サイズが変わったら並べ直す
+    // 画面サイズが変わったら UI単位(--u) を取り直して並べ直す
     var t = null;
-    global.addEventListener('resize', function () {
+    function onViewportChange() {
       clearTimeout(t);
-      t = setTimeout(function () { CT.monster.relayout(); }, 150);
-    });
+      t = setTimeout(function () {
+        CT.calibrate.apply();
+        CT.monster.relayout();
+      }, 150);
+    }
+    global.addEventListener('resize', onViewportChange);
+    global.addEventListener('orientationchange', onViewportChange);
     if (global.visualViewport) {
-      global.visualViewport.addEventListener('resize', function () {
-        clearTimeout(t);
-        t = setTimeout(function () { CT.monster.relayout(); }, 150);
-      });
+      global.visualViewport.addEventListener('resize', onViewportChange);
     }
   }
 

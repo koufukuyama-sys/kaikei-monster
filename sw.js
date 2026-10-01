@@ -1,6 +1,6 @@
 /* sw.js — 全ファイルをキャッシュしてオフラインで起動できるようにする。
    ファイルを足したら ASSETS に追記し、CACHE のバージョンを上げること。 */
-var CACHE = 'kaikei-monster-v5';
+var CACHE = 'kaikei-monster-v6';
 var ASSETS = [
   './',
   './index.html',

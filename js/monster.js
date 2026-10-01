@@ -32,6 +32,7 @@
     onFinish = opts.onFinish || onFinish;
     setMode(mode);
     setState('sleep');
+    document.addEventListener('visibilitychange', onVisibilityChange);
   }
 
   /* ---------- 状態 ---------- */
@@ -72,14 +73,27 @@
     }
   }
 
-  // まばたき: INPUT と THANKS のときだけ、4〜7秒おきにランダム
+  /* まばたき: INPUT と THANKS のときだけ、4〜7秒おきにランダム。
+     画面が隠れている間はアニメーションが凍るので、まばたきさせない
+     （凍った瞬間の「目が細い」フレームが残ってしまうため）。 */
   function scheduleBlink() {
     clearTimeout(blinkTimer);
+    if (document.hidden) return;
     if (state !== 'input' && state !== 'thanks') return;
     blinkTimer = setTimeout(function () {
       flash('blink', 160);
       scheduleBlink();
     }, 4000 + Math.random() * 3000);
+  }
+
+  // 他のアプリから戻ったとき、止まったアニメーションの残りを消して再開する
+  function onVisibilityChange() {
+    var eyes = document.querySelectorAll('.eye');
+    for (var i = 0; i < eyes.length; i++) {
+      eyes[i].classList.remove('blink');
+      eyes[i].classList.remove('mode-pop');
+    }
+    scheduleBlink();
   }
 
   // 眠っているときに目をタップしたら、一瞬だけ目を開けてモードを見せる
@@ -119,33 +133,33 @@
   /* 口の高さは測らずに計算する。
      #controls には height の transition が付いているので、
      data-keypad を変えた直後に clientHeight を読むと「遷移中の値」が返るため。 */
-  function controlsHeight(pxmm) {
+  function controlsHeight() {
     var cs = getComputedStyle(document.documentElement);
     var open = parseFloat(cs.getPropertyValue('--controls-open-mm')) || 107;
     var bar = parseFloat(cs.getPropertyValue('--controls-bar-mm')) || 22;
-    var mm = (els.controls.dataset.keypad === 'bar') ? bar : open;
-    return Math.min(mm * pxmm, CONTROLS_MAX_VH * global.innerHeight);
+    var h = (els.controls.dataset.keypad === 'bar') ? bar : open;
+    return Math.min(h * CT.calibrate.uiUnit(), CONTROLS_MAX_VH * global.innerHeight);
   }
 
-  /* 口の上側が使っている高さ(mm)。
+  /* 口の上側が使っている高さ。単位は --u（UI寸法）であって実寸mmではない。
      目の行の高さは ねているときだけ変わる（しかも transition 中は測れない）ので、
      こちらも実測せず css/base.css の変数から計算する。
-     ★base.css の --eyes-mm / --gap-mm / --lip-mm と、歯の高さ 7.6mm を変えたら
+     ★base.css の --eyes-mm / --gap-mm / --lip-mm と、歯の高さ 7.6 を変えたら
        ここも合わせること。 */
   var TEETH_MM = 7.6;
 
-  function chromeHeight(pxmm) {
+  function chromeHeight() {
     var cs = getComputedStyle(document.documentElement);
     var eyes = parseFloat(cs.getPropertyValue('--eyes-mm')) || 30;
     var gap = parseFloat(cs.getPropertyValue('--gap-mm')) || 2;
     var lip = parseFloat(cs.getPropertyValue('--lip-mm')) || 1.5;
-    return (eyes + gap + lip * 2 + TEETH_MM) * pxmm;
+    return (eyes + gap + lip * 2 + TEETH_MM) * CT.calibrate.uiUnit();
   }
 
   function fit(p, pxmm) {
     var pad = TRAY_PAD_MM * pxmm * 2;
     var stageH = els.stage.clientHeight;
-    var trayH = stageH - controlsHeight(pxmm) - chromeHeight(pxmm);
+    var trayH = stageH - controlsHeight() - chromeHeight();
     var availW = els.tray.clientWidth - pad;
 
     return {
