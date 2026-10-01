@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>かいけいモンスター テスト</title>
+<style>
+  body { font-family: -apple-system, "Hiragino Sans", sans-serif; margin: 24px; line-height: 1.6; }
+  h1 { font-size: 20px; }
+  .ok { color: #137a3a; } .ng { color: #b3261e; font-weight: 700; }
+  #summary { font-size: 18px; font-weight: 700; padding: 12px; border-radius: 8px; margin: 12px 0; }
+  #summary.pass { background: #e4f6ea; color: #137a3a; }
+  #summary.fail { background: #fde8e6; color: #b3261e; }
+  table { border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+  td, th { border: 1px solid #ddd; padding: 4px 10px; text-align: right; }
+  th { background: #f5f5f5; }
+  td.l, th.l { text-align: left; }
+  ul { padding-left: 20px; }
+</style>
+</head>
+<body>
+<h1>かいけいモンスター ロジックテスト</h1>
+<div id="summary">実行中…</div>
+<div id="out"></div>
+
+<script src="../js/money.js"></script>
+<script src="../js/layout.js"></script>
+<script>
+(function () {
+  var M = CT.money, L = CT.layout;
+  var fails = [], checks = 0;
+
+  function eq(label, got, want) {
+    checks++;
+    if (JSON.stringify(got) !== JSON.stringify(want)) {
+      fails.push(label + ' → ' + JSON.stringify(got) + ' (期待 ' + JSON.stringify(want) + ')');
+      return false;
+    }
+    return true;
+  }
+
+  function bd(o) {
+    var base = { bill1000: 0, coin500: 0, coin100: 0, coin50: 0, coin10: 0, coin5: 0, coin1: 0 };
+    for (var k in o) base[k] = o[k];
+    return base;
+  }
+
+  /* --- 仕様に明記された例 --- */
+  eq('1210円 こまかい', M.breakdown(1210, 'fine'), bd({ bill1000: 1, coin100: 2, coin10: 1 }));
+  eq('60円 こまかい（10円6枚）', M.breakdown(60, 'fine'), bd({ coin10: 6 }));
+  eq('60円 まとめる（50円+10円）', M.breakdown(60, 'coarse'), bd({ coin50: 1, coin10: 1 }));
+  eq('0円', M.breakdown(0, 'fine'), bd({}));
+  // 一の位も他の位と同じ扱い
+  eq('8円 こまかい（1円8枚）', M.breakdown(8, 'fine'), bd({ coin1: 8 }));
+  eq('8円 まとめる（5円+1円3枚）', M.breakdown(8, 'coarse'), bd({ coin5: 1, coin1: 3 }));
+  eq('1265円 こまかい', M.breakdown(1265, 'fine'),
+     bd({ bill1000: 1, coin100: 2, coin10: 6, coin1: 5 }));
+  eq('1265円 まとめる', M.breakdown(1265, 'coarse'),
+     bd({ bill1000: 1, coin100: 2, coin50: 1, coin10: 1, coin5: 1 }));
+  eq('2999円 こまかい（最大29枚）', M.breakdown(2999, 'fine'),
+     bd({ bill1000: 2, coin100: 9, coin10: 9, coin1: 9 }));
+  eq('2999円 まとめる', M.breakdown(2999, 'coarse'),
+     bd({ bill1000: 2, coin500: 1, coin100: 4, coin50: 1, coin10: 4, coin5: 1, coin1: 4 }));
+  // 千の位はこまかいモードでも分解しない
+  eq('2000円 こまかい（札2枚のまま）', M.breakdown(2000, 'fine'), bd({ bill1000: 2 }));
+  // 上限を超えた入力は 2999 に丸める
+  eq('3000円は上限2999に丸める', M.breakdown(3000, 'fine'), M.breakdown(2999, 'fine'));
+
+  /* --- 全金額の総当たり --- */
+  var maxFine = 0, maxCoarse = 0;
+  for (var a = 0; a <= M.MAX_AMOUNT; a++) {
+    ['fine', 'coarse'].forEach(function (mode) {
+      var b = M.breakdown(a, mode);
+      checks++;
+      if (M.total(b) !== a) fails.push(a + '円 ' + mode + ' の合計が ' + M.total(b));
+      // こまかいモードでは 500円玉・50円玉・5円玉を使わない
+      if (mode === 'fine' && (b.coin500 || b.coin50 || b.coin5)) {
+        checks++; fails.push(a + '円 こまかい で 500/50/5円玉が出た');
+      }
+      // まとめるモードは常にこまかい以下の枚数
+      if (mode === 'coarse' && M.count(b) > M.count(M.breakdown(a, 'fine'))) {
+        checks++; fails.push(a + '円 まとめる の枚数がこまかいより多い');
+      }
+      if (mode === 'fine') maxFine = Math.max(maxFine, M.count(b));
+      else maxCoarse = Math.max(maxCoarse, M.count(b));
+    });
+  }
+
+  /* --- 実寸レイアウト（iPad 10.9インチ縦 = トレイ幅およそ152mm 想定） --- */
+  var AVAIL_W = 152;
+  var SAMPLES = [0, 1, 8, 60, 500, 999, 1265, 2000, 1999, 2999];
+  var rows = SAMPLES.map(function (a) {
+    return ['fine', 'coarse'].map(function (mode) {
+      var p = L.plan(M.breakdown(a, mode), AVAIL_W);
+      return { a: a, mode: mode, w: p.w, h: p.h, n: p.items.length };
+    });
+  }).reduce(function (x, y) { return x.concat(y); }, []);
+
+  // 置いたお金どうしが重なっていないこと（お札の意図的な重ねだけは除く）
+  rows.forEach(function (r) {
+    var p = L.plan(M.breakdown(r.a, r.mode), AVAIL_W);
+    var coins = p.items.filter(function (it) { return it.kind !== 'bill1000'; });
+    for (var i = 0; i < coins.length; i++) {
+      for (var j = i + 1; j < coins.length; j++) {
+        var A = coins[i], B = coins[j];
+        var dx = (A.x + A.w / 2) - (B.x + B.w / 2);
+        var dy = (A.y + A.h / 2) - (B.y + B.h / 2);
+        var need = (A.w + B.w) / 2;
+        checks++;
+        if (Math.sqrt(dx * dx + dy * dy) < need - 0.01) {
+          fails.push(r.a + '円 ' + r.mode + ' で硬貨が重なっている');
+          i = j = coins.length;
+        }
+      }
+    }
+  });
+
+  /* --- 出力 --- */
+  var html = '<h2>金種の内訳</h2><table><tr><th class="l">金額</th><th class="l">モード</th>' +
+             '<th>札</th><th>500</th><th>100</th><th>50</th><th>10</th><th>5</th><th>1</th><th>枚数</th></tr>';
+  SAMPLES.forEach(function (a) {
+    ['fine', 'coarse'].forEach(function (mode) {
+      var b = M.breakdown(a, mode);
+      html += '<tr><td class="l">' + a + '円</td><td class="l">' +
+        (mode === 'fine' ? 'こまかい' : 'まとめる') + '</td><td>' +
+        b.bill1000 + '</td><td>' + b.coin500 + '</td><td>' + b.coin100 + '</td><td>' +
+        b.coin50 + '</td><td>' + b.coin10 + '</td><td>' + b.coin5 + '</td><td>' +
+        b.coin1 + '</td><td>' + M.count(b) + '</td></tr>';
+    });
+  });
+  html += '</table>';
+
+  html += '<h2>実寸で必要な大きさ（トレイ幅 ' + AVAIL_W + 'mm のとき）</h2><table>' +
+          '<tr><th class="l">金額</th><th class="l">モード</th><th>よこ(mm)</th><th>たて(mm)</th><th>枚数</th></tr>';
+  rows.forEach(function (r) {
+    html += '<tr><td class="l">' + r.a + '円</td><td class="l">' +
+      (r.mode === 'fine' ? 'こまかい' : 'まとめる') + '</td><td>' +
+      r.w.toFixed(1) + '</td><td>' + r.h.toFixed(1) + '</td><td>' + r.n + '</td></tr>';
+  });
+  html += '</table><p>最大枚数: こまかい ' + maxFine + '枚 / まとめる ' + maxCoarse + '枚</p>';
+
+  if (fails.length) {
+    html += '<h2 class="ng">失敗</h2><ul><li>' + fails.join('</li><li>') + '</li></ul>';
+  }
+  document.getElementById('out').innerHTML = html;
+
+  var s = document.getElementById('summary');
+  s.className = fails.length ? 'fail' : 'pass';
+  s.textContent = fails.length
+    ? '✗ ' + fails.length + ' 件 失敗 / ' + checks + ' 件中'
+    : '✓ すべて成功（' + checks + ' 件）';
+})();
+</script>
+</body>
+</html>

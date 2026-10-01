@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>iPadプレビュー — かいけいモンスター</title>
+<style>
+  body { margin: 0; background: #22242b; color: #d8dae2; font: 13px/1.6 -apple-system, "Hiragino Sans", sans-serif; }
+  header { display: flex; gap: 14px; align-items: center; padding: 10px 16px; flex-wrap: wrap; }
+  select, button { font: inherit; padding: 5px 10px; border-radius: 7px; border: 1px solid #454956; background: #30333d; color: #e7e9ef; }
+  .wrap { display: flex; justify-content: center; align-items: flex-start; }
+  .device { border: 10px solid #15161a; border-radius: 26px; overflow: hidden; transform-origin: top center; box-shadow: 0 16px 50px rgba(0,0,0,.6); }
+  iframe { display: block; border: 0; }
+  code { color: #9fe6cf; }
+</style>
+</head>
+<body>
+<header>
+  <strong>iPadプレビュー</strong>
+  <select id="dev"></select>
+  <label>画面に合わせて縮小 <input id="fit" type="checkbox" checked></label>
+  <button id="reload">リロード</button>
+  <span id="info"></span>
+</header>
+<div class="wrap"><div class="device" id="device"><iframe id="f" src="../index.html"></iframe></div></div>
+<script>
+/* 各iPadの CSSピクセル解像度と、そこから計算した実寸(1mmあたりのpx)。
+   実機の見え方（お金が何枚収まるか）をMac上で確認するための開発ツール。 */
+var DEVICES = [
+  { name: 'iPad 10.9" / Air 11"', w: 820, h: 1180, inch: 10.9 },
+  { name: 'iPad 10.2"',           w: 810, h: 1080, inch: 10.2 },
+  { name: 'iPad Pro 11"',         w: 834, h: 1194, inch: 11.0 },
+  { name: 'iPad Pro 12.9"',       w: 1024, h: 1366, inch: 12.9 },
+  { name: 'iPad mini 8.3"',       w: 744, h: 1133, inch: 8.3 },
+  { name: 'iPad 9.7"',            w: 768, h: 1024, inch: 9.7 }
+];
+
+var sel = document.getElementById('dev');
+DEVICES.forEach(function (d, i) {
+  var o = document.createElement('option');
+  o.value = i; o.textContent = d.name + '  (' + d.w + '×' + d.h + ')';
+  sel.appendChild(o);
+});
+
+function apply() {
+  var d = DEVICES[sel.value];
+  var pxmm = Math.sqrt(d.w * d.w + d.h * d.h) / (d.inch * 25.4);
+  try { localStorage.setItem('ct.pxPerMm', String(pxmm)); } catch (e) {}
+
+  var f = document.getElementById('f');
+  f.width = d.w; f.height = d.h;
+  var dev = document.getElementById('device');
+  var avail = window.innerHeight - 90;
+  var scale = document.getElementById('fit').checked ? Math.min(1, avail / d.h) : 1;
+  dev.style.transform = 'scale(' + scale + ')';
+
+  document.getElementById('info').innerHTML =
+    '実寸 <code>' + (d.w / pxmm).toFixed(0) + ' × ' + (d.h / pxmm).toFixed(0) + ' mm</code>' +
+    '　1mm = <code>' + pxmm.toFixed(2) + 'px</code>　表示倍率 ' + (scale * 100).toFixed(0) + '%';
+  f.src = '../index.html?t=' + Date.now();   // 開発中にキャッシュを掴まないように
+}
+
+sel.addEventListener('change', apply);
+document.getElementById('fit').addEventListener('change', apply);
+document.getElementById('reload').addEventListener('click', function () {
+  document.getElementById('f').src = '../index.html?t=' + Date.now();
+});
+window.addEventListener('resize', apply);
+apply();
+</script>
+</body>
+</html>

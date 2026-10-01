@@ -1,0 +1,113 @@
+/* かいけいモンスター skin.css — 見た目のみ。レイアウト・寸法は base.css / layout.js 側 */
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap");
+:root {
+  /* 怪獣 */
+  --km-body: #FFB547;
+  --km-body-shade: #F29A2E;
+  --km-cheek: #FF8C7A;
+  --km-lip: #E04E3C;
+  --km-mouth: #5B2140;
+  --km-tooth: #FFFDF7;
+  --km-ink: #3B1F3A;
+  --km-eye-white: #FFFFFF;
+  --km-lid: #FFC56B;
+  --km-tray-line: rgba(255,255,255,.16);
+  /* お金 */
+  --km-bill: #C9AEFF;   --km-bill-edge: #8E6BE0;
+  --km-c500: #FFD23F;   --km-c500-edge: #E0A600;
+  --km-c100: #7CC0FF;   --km-c100-edge: #4A93D9;
+  --km-c50:  #6FD8B0;   --km-c50-edge:  #3BAE85;
+  --km-c10:  #FF9A52;   --km-c10-edge:  #E06F2A;
+  /* コントロール */
+  --km-panel: #FFF8EC;
+  --km-key: #FFFFFF;
+  --km-key-pressed: #FFF1D6;
+  --km-key-shadow: #E9D9BF;
+  --km-key-sub: #FFE1D6;          /* ⌫ C */
+  --km-key-sub-shadow: #F2BBA8;
+  --km-ok: #3FBF6E;
+  --km-ok-shadow: #2A8F4F;
+  --km-ok-text: #FFFFFF;
+  --km-off: #E6DCCB;
+  --km-off-shadow: #D3C6B0;
+  --km-off-text: #A89A85;
+  --km-fixed-zero: #C9B9A3;
+  --km-display-inset: #EFE3CF;
+  /* 形 */
+  --km-font: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+  --km-weight: 800;
+  --km-radius-key: 28px;
+  --km-radius-bar: 34px;
+  --km-radius-panel: 52px;
+  --km-key-depth: 8px;
+  --km-key-size: 98px;            /* 最小 82px ≒ 15.6mm @5.25px/mm */
+  --km-fs-key: 60px;
+  --km-fs-display: 80px;
+  --km-fs-display-bar: 64px;
+  --km-fs-yen: 36px;
+  --km-fs-mode: 26px;
+  --km-fs-thanks: 132px;
+  --km-fs-munch: 112px;
+  /* 動き */
+  --km-ease-pop: cubic-bezier(.34,1.56,.64,1);
+  --km-t-blink: 160ms;
+  --km-t-mouth: 380ms;
+  --km-t-suck: 600ms;
+  --km-t-chew: 250ms;
+}
+body { background: var(--km-body); color: var(--km-ink); font-family: var(--km-font); font-weight: var(--km-weight); }
+/* --- 怪獣の状態切替: <svg id="monster" data-state="sleep|input|eating|thanks" data-mode="komakai|matomeru"> --- */
+#monster .eye-open-k, #monster .eye-open-m, #monster .eye-closed, #monster .eye-spiral,
+#monster .mouth-closed, #monster .mouth-open, #monster .mouth-chew, #monster #zzz, #monster .cheeks { display: none; }
+#monster[data-state="sleep"] .eye-closed,
+#monster[data-state="sleep"] .mouth-closed,
+#monster[data-state="sleep"] #zzz,
+#monster[data-state="sleep"] .cheeks { display: inline; }
+#monster:is([data-state="input"],[data-state="thanks"])[data-mode="komakai"] .eye-open-k,
+#monster:is([data-state="input"],[data-state="thanks"])[data-mode="matomeru"] .eye-open-m,
+#monster[data-state="sleep"].peek[data-mode="komakai"] .eye-open-k,
+#monster[data-state="sleep"].peek[data-mode="matomeru"] .eye-open-m,
+#monster:is([data-state="input"],[data-state="thanks"]) .mouth-open { display: inline; }
+#monster[data-state="sleep"].peek .eye-closed { display: none; }
+#monster[data-state="eating"] .eye-spiral,
+#monster[data-state="eating"] .mouth-chew,
+#monster[data-state="eating"] .cheeks { display: inline; }
+/* 目は押せるボタン */
+#eye-left, #eye-right { cursor: pointer; transform-box: fill-box; transform-origin: center; transition: transform 120ms; }
+#eye-left:active, #eye-right:active { transform: translateY(8px); }
+.blink { animation: km-blink var(--km-t-blink) ease-in-out; }
+.mode-pop { animation: km-mode-pop 260ms var(--km-ease-pop); }
+#mouth { transform-box: fill-box; transform-origin: 50% 0; }
+.mouth-open { animation: km-mouth-open var(--km-t-mouth) var(--km-ease-pop); transform-box: fill-box; transform-origin: 50% 0; }
+.mouth-chew .seam { animation: km-chew var(--km-t-chew) ease-in-out 6 alternate; }
+.cheeks circle { transform-box: fill-box; transform-origin: center; }
+#monster[data-state="eating"] .cheeks circle { animation: km-cheek var(--km-t-chew) ease-in-out 6 alternate; }
+#zzz text { animation: km-zzz 2.4s ease-in-out infinite; }
+#zzz text:nth-child(2) { animation-delay: .8s; }
+#zzz text:nth-child(3) { animation-delay: 1.6s; }
+/* お金 */
+.money { transition: transform var(--km-t-suck) ease-in, opacity var(--km-t-suck); }
+.money.pop-in { animation: km-pop 260ms var(--km-ease-pop) both; }
+.money.sucked { transform: translate(var(--to-x), var(--to-y)) scale(0) rotate(180deg); opacity: 0; }
+/* コントロール */
+.km-key { background: var(--km-key); border-radius: var(--km-radius-key); box-shadow: 0 var(--km-key-depth) 0 var(--km-key-shadow);
+  font-size: var(--km-fs-key); color: var(--km-ink); border: 0; font-family: var(--km-font); font-weight: 800; transition: transform 80ms, box-shadow 80ms; }
+.km-key:active { background: var(--km-key-pressed); transform: translateY(6px); box-shadow: 0 2px 0 var(--km-key-shadow); }
+.km-key.sub { background: var(--km-key-sub); box-shadow: 0 var(--km-key-depth) 0 var(--km-key-sub-shadow); }
+.km-ok { background: var(--km-ok); box-shadow: 0 var(--km-key-depth) 0 var(--km-ok-shadow); color: var(--km-ok-text); }
+.km-ok:disabled { background: var(--km-off); box-shadow: 0 var(--km-key-depth) 0 var(--km-off-shadow); color: var(--km-off-text); }
+.km-display { background: #fff; border-radius: var(--km-radius-key); box-shadow: inset 0 4px 0 var(--km-display-inset); }
+.km-display .fixed-zero { color: var(--km-fixed-zero); }
+.km-display.shake { animation: km-shake 240ms; }
+.km-thanks { font-size: var(--km-fs-thanks); color: #fff; }
+.km-thanks .line1 { color: var(--km-c500); }
+.km-thanks span { display: block; animation: km-pop 420ms var(--km-ease-pop) both; }
+.km-thanks span + span { animation-delay: 300ms; }
+@keyframes km-blink { 50% { transform: scaleY(.1); } }
+@keyframes km-mode-pop { 30% { transform: scale(.85); } 70% { transform: scale(1.08); } }
+@keyframes km-mouth-open { from { transform: scaleY(.05); } to { transform: scaleY(1); } }
+@keyframes km-chew { from { transform: translateY(-8px); } to { transform: translateY(8px); } }
+@keyframes km-cheek { to { transform: scale(1.12); } }
+@keyframes km-zzz { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-30px); } }
+@keyframes km-pop { 0% { transform: scale(0); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes km-shake { 25%,75% { transform: translateX(-12px); } 50% { transform: translateX(12px); } }

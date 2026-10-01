@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="m-coin1" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#A9BFCB"></circle>
+    <circle cx="50" cy="50" r="42" fill="#E8EEF2"></circle>
+    <circle cx="50" cy="50" r="36" fill="none" stroke="#A9BFCB" stroke-opacity=".95" stroke-width="2.5"></circle>
+    <circle cx="50" cy="50" r="31" fill="none" stroke="#A9BFCB" stroke-opacity=".7" stroke-width="1.6"></circle>
+    <text x="50" y="62" text-anchor="middle" class="km-num" font-size="40" fill="#3B1F3A">1</text>
+    <text x="50" y="80" text-anchor="middle" class="km-num" font-size="12" fill="#3B1F3A">えん</text>
+  </symbol>
+  <symbol id="m-coin5" viewBox="0 0 100 100">
+    <path d="M2 50 A48 48 0 1 0 98 50 A48 48 0 1 0 2 50 Z M38.6 50 A11.4 11.4 0 1 1 61.4 50 A11.4 11.4 0 1 1 38.6 50 Z" fill="#C79A1C" fill-rule="evenodd"></path>
+    <path d="M8 50 A42 42 0 1 0 92 50 A42 42 0 1 0 8 50 Z M36 50 A14 14 0 1 1 64 50 A14 14 0 1 1 36 50 Z" fill="#F2C64B" fill-rule="evenodd"></path>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#C79A1C" stroke-opacity=".9" stroke-width="2.5" stroke-dasharray="5 6"></circle>
+    <text x="50" y="30" text-anchor="middle" class="km-num" font-size="26" fill="#3B1F3A">5</text>
+    <text x="50" y="83" text-anchor="middle" class="km-num" font-size="12" fill="#3B1F3A">えん</text>
+  </symbol>
+  <symbol id="m-coin10" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#E06F2A"></circle>
+    <circle cx="50" cy="50" r="42" fill="#FF9A52"></circle>
+    <circle cx="50" cy="50" r="36" fill="none" stroke="#FFFFFF" stroke-opacity=".7" stroke-width="2.5" stroke-dasharray="4 5"></circle>
+    <text x="50" y="61" text-anchor="middle" class="km-num" font-weight="800" font-size="36" fill="#3B1F3A">10</text>
+    <text x="50" y="80" text-anchor="middle" class="km-num" font-weight="800" font-size="12" fill="#3B1F3A">えん</text>
+  </symbol>
+  <symbol id="m-coin50" viewBox="0 0 100 100">
+    <path d="M2 50 A48 48 0 1 0 98 50 A48 48 0 1 0 2 50 Z M40.5 50 A9.5 9.5 0 1 1 59.5 50 A9.5 9.5 0 1 1 40.5 50 Z" fill="#94A8B3" fill-rule="evenodd"></path>
+    <path d="M8 50 A42 42 0 1 0 92 50 A42 42 0 1 0 8 50 Z M38 50 A12 12 0 1 1 62 50 A12 12 0 1 1 38 50 Z" fill="#CFDAE0" fill-rule="evenodd"></path>
+    <circle cx="50" cy="50" r="15" fill="none" stroke="#94A8B3" stroke-opacity=".9" stroke-width="2.5"></circle>
+    <text x="50" y="34" text-anchor="middle" class="km-num" font-weight="800" font-size="24" fill="#3B1F3A">50</text>
+    <text x="50" y="82" text-anchor="middle" class="km-num" font-weight="800" font-size="12" fill="#3B1F3A">えん</text>
+  </symbol>
+  <symbol id="m-coin100" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#9AADB8"></circle>
+    <circle cx="50" cy="50" r="45" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="0.1 6" stroke-linecap="round"></circle>
+    <circle cx="50" cy="50" r="40" fill="#D6E0E6"></circle>
+    <text x="50" y="59" text-anchor="middle" class="km-num" font-weight="800" font-size="30" fill="#3B1F3A">100</text>
+    <text x="50" y="77" text-anchor="middle" class="km-num" font-weight="800" font-size="12" fill="#3B1F3A">えん</text>
+  </symbol>
+  <symbol id="m-coin500" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#8DA1AD"></circle>
+    <path d="M50 6 L54 12 L61 7 L63 14 L71 11 L71 19 L79 18 L77 25 L85 26 L81 32 L88 36 L82 40 L88 46 L82 50 L88 54 L82 60 L88 64 L81 68 L85 74 L77 75 L79 82 L71 81 L71 89 L63 86 L61 93 L54 88 L50 94 L46 88 L39 93 L37 86 L29 89 L29 81 L21 82 L23 75 L15 74 L19 68 L12 64 L18 60 L12 54 L18 50 L12 46 L18 40 L12 36 L19 32 L15 26 L23 25 L21 18 L29 19 L29 11 L37 14 L39 7 L46 12 Z" fill="#C6D2D9"></path>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#8DA1AD" stroke-opacity=".85" stroke-width="2.5"></circle>
+    <text x="50" y="59" text-anchor="middle" class="km-num" font-weight="800" font-size="27" fill="#3B1F3A">500</text>
+    <text x="50" y="74" text-anchor="middle" class="km-num" font-weight="800" font-size="10" fill="#3B1F3A">えん</text>
+  </symbol>
+  <symbol id="m-bill1000" viewBox="0 0 1500 760">
+    <rect width="1500" height="760" rx="56" fill="#8E6BE0"></rect>
+    <rect x="18" y="18" width="1464" height="724" rx="44" fill="#C9AEFF"></rect>
+    <rect x="54" y="54" width="1392" height="652" rx="30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-dasharray="26 20"></rect>
+    <circle cx="300" cy="380" r="170" fill="#FFFFFF" fill-opacity=".55"></circle>
+    <circle cx="300" cy="392" r="120" fill="#FFB547"></circle>
+    <circle cx="258" cy="372" r="18" fill="#3B1F3A"></circle><circle cx="342" cy="372" r="18" fill="#3B1F3A"></circle>
+    <path d="M250 428 Q300 470 350 428" fill="none" stroke="#3B1F3A" stroke-width="12" stroke-linecap="round"></path>
+    <text x="900" y="480" text-anchor="middle" class="km-num" font-weight="800" font-size="290" fill="#3B1F3A">1000</text>
+    <text x="1300" y="610" text-anchor="middle" class="km-num" font-weight="800" font-size="90" fill="#3B1F3A">えん</text>
+    <circle cx="120" cy="120" r="22" fill="#FFFFFF"></circle><circle cx="1380" cy="120" r="22" fill="#FFFFFF"></circle>
+    <circle cx="120" cy="640" r="22" fill="#FFFFFF"></circle><circle cx="1380" cy="640" r="22" fill="#FFFFFF"></circle>
+  </symbol>
+</svg>

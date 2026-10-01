@@ -1,0 +1,241 @@
+/* skin.css — 見た目（色・形・影・文字サイズ）だけ。
+   ===================================================================
+   スタイルガイド（skin/skin.delivered.css・skin/monster.svg・skin/money.svg）
+   を取り込んだもの。寸法は px 直書きではなく mm 基準に置き換えてあり、
+   どのiPadでも同じ見え方になる（5.25px/mm のときデザイン原寸と一致）。
+   差し替え方は skin/README.md。
+   =================================================================== */
+
+:root {
+  /* --- 怪獣 --- */
+  --km-body: #FFB547;
+  --km-body-shade: #F29A2E;
+  --km-cheek: #FF8C7A;
+  --km-lip: #E04E3C;
+  --km-mouth: #5B2140;
+  --km-tooth: #FFFDF7;
+  --km-ink: #3B1F3A;
+  --km-eye-white: #FFFFFF;
+  --km-lid: #FFC56B;
+  --km-tray-line: rgba(255, 255, 255, .16);
+
+  /* --- おかね --- */
+  /* 本物の硬貨の色に合わせる
+     （500・100・50は白銅＝銀、10は青銅＝銅色、5は黄銅＝金色、1はアルミ＝明るい銀）。
+     同じ銀でも濃淡をわずかに変え、大きさ・数字・ふちの飾りで見分けられるようにしている。 */
+  --km-c500: #C6D2D9;
+  --km-c100: #D6E0E6;
+  --km-c50:  #CFDAE0;
+  --km-c10:  #FF9A52;
+  --km-c5:   #F2C64B;
+  --km-c1:   #E8EEF2;
+  --km-bill: #C9AEFF;
+
+  /* --- コントロール --- */
+  --km-panel: #FFF8EC;
+  --km-key: #FFFFFF;
+  --km-key-pressed: #FFF1D6;
+  --km-key-shadow: #E9D9BF;
+  --km-key-sub: #FFE1D6;
+  --km-key-sub-shadow: #F2BBA8;
+  --km-ok: #3FBF6E;
+  --km-ok-shadow: #2A8F4F;
+  --km-ok-text: #FFFFFF;
+  --km-off: #E6DCCB;
+  --km-off-shadow: #D3C6B0;
+  --km-off-text: #A89A85;
+  --km-fixed-zero: #C9B9A3;
+  --km-display-inset: #EFE3CF;
+  --km-thanks: #FFD23F;
+
+  /* --- 形（スタイルガイドの px を mm に換算: px ÷ 5.25） --- */
+  --km-r-key: calc(5.3 * var(--mm));
+  --km-r-panel: calc(9.9 * var(--mm));
+  --km-r-mouth: calc(13.7 * var(--mm));
+  --km-key-depth: calc(1.5 * var(--mm));
+
+  --km-fs-key: calc(11.4 * var(--mm));
+  --km-fs-display: calc(15.2 * var(--mm));
+  --km-fs-display-bar: calc(12.2 * var(--mm));
+  --km-fs-yen: calc(6.9 * var(--mm));
+  --km-fs-mode: calc(5.0 * var(--mm));
+  --km-fs-thanks: calc(25.1 * var(--mm));
+  --km-fs-munch: calc(21.3 * var(--mm));
+  --km-fs-zzz: calc(8.8 * var(--mm));
+
+  /* ヒラギノ丸ゴは macOS / iPadOS に入っているので、
+     オフラインでも雰囲気の近い丸ゴシックで表示される */
+  --km-font: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN",
+             "ヒラギノ丸ゴ ProN W4", "Hiragino Sans", sans-serif;
+}
+
+body {
+  font-family: var(--km-font);
+  font-weight: 800;
+  color: var(--km-ink);
+  background: var(--km-body);
+}
+.km-num { font-family: var(--km-font); font-weight: 800; }
+
+/* ---------- かいじゅう ---------- */
+
+#face { background: var(--km-body); }
+.freckle { background: var(--km-body-shade); opacity: .55; }
+
+.eye-white { fill: var(--km-eye-white); stroke: var(--km-ink); stroke-width: 6; }
+.eye-shade { fill: var(--km-body-shade); }
+.eye-lid   { fill: var(--km-lid); stroke: var(--km-ink); stroke-width: 6; }
+.eye-ink   { fill: var(--km-ink); }
+.eye-lash  { fill: none; stroke: var(--km-ink); stroke-linecap: round; }
+.eye { transition: transform 120ms; }
+.eye:active { transform: translateY(calc(1.5 * var(--mm))); }
+
+#mode-label {
+  font-size: var(--km-fs-mode);
+  line-height: 1;
+  padding: calc(1.6 * var(--mm)) calc(3.4 * var(--mm));
+  border-radius: 999px;
+  background: #fff;
+  color: var(--km-ink);
+  border: calc(.6 * var(--mm)) solid var(--km-ink);
+}
+body[data-mode="coarse"] #mode-label { background: var(--km-ink); color: #fff; }
+
+#zzz { font-size: var(--km-fs-zzz); }
+#zzz span {
+  color: #fff;
+  -webkit-text-stroke: calc(1.3 * var(--mm)) var(--km-ink);
+  paint-order: stroke;
+}
+#zzz span:nth-child(2) { font-size: calc(var(--km-fs-zzz) * 1.35); }
+#zzz span:nth-child(3) { font-size: calc(var(--km-fs-zzz) * 1.78); }
+
+.cheeks { fill: var(--km-cheek); opacity: .55; }
+.lip-line  { fill: none; stroke: var(--km-ink); stroke-linecap: round; }
+.tooth     { fill: var(--km-tooth); stroke: var(--km-ink); stroke-width: 4; stroke-linejoin: round; }
+.chew-mouth { fill: var(--km-lip); stroke: var(--km-ink); stroke-width: 8; }
+.seam { fill: none; stroke: var(--km-ink); stroke-width: 9; stroke-linecap: round; }
+
+#munch {
+  font-size: var(--km-fs-munch);
+  color: #fff;
+  -webkit-text-stroke: calc(1.7 * var(--mm)) var(--km-ink);
+  paint-order: stroke;
+  letter-spacing: .02em;
+}
+
+#mouth {
+  background: var(--km-lip);
+  border-radius: var(--km-r-mouth);
+}
+#mouth-inner {
+  background: var(--km-mouth);
+  border-radius: calc(var(--km-r-mouth) - var(--lip-mm) * var(--mm));
+}
+#teeth path { fill: var(--km-tooth); }
+
+#mouth-text { font-size: var(--km-fs-thanks); line-height: 1.18; }
+#mouth-text .line1 { color: var(--km-thanks); }
+#mouth-text .line2 { color: #fff; }
+#sparkles path { fill: #fff; }
+
+/* トレイの枠（お金を置く範囲のめやす） */
+#tray {
+  border: calc(.6 * var(--mm)) dashed var(--km-tray-line);
+  border-radius: calc(6.9 * var(--mm));
+}
+
+/* ---------- おかね ---------- */
+
+.money { filter: drop-shadow(0 calc(.5 * var(--mm)) calc(1 * var(--mm)) rgba(0, 0, 0, .35)); }
+
+/* ---------- コントロール ---------- */
+
+#controls {
+  background: var(--km-panel);
+  border-radius: var(--km-r-panel) var(--km-r-panel) 0 0;
+}
+#controls[data-keypad="bar"] { background: transparent; }
+
+#amount {
+  background: #fff;
+  border-radius: var(--km-r-key);
+  box-shadow: inset 0 calc(.8 * var(--mm)) 0 var(--km-display-inset);
+  color: var(--km-ink);
+}
+#amount-value { font-size: var(--km-fs-display); line-height: 1; letter-spacing: -.02em; }
+#controls[data-keypad="bar"] #amount-value { font-size: var(--km-fs-display-bar); }
+#amount-value .auto-zero { color: var(--km-fixed-zero); }
+#amount-unit { font-size: var(--km-fs-yen); color: var(--km-fixed-zero); }
+
+.key {
+  background: var(--km-key);
+  color: var(--km-ink);
+  border-radius: var(--km-r-key);
+  box-shadow: 0 var(--km-key-depth) 0 var(--km-key-shadow);
+  font-size: var(--km-fs-key);
+  transition: transform 80ms, box-shadow 80ms, background 80ms;
+}
+.key:active {
+  background: var(--km-key-pressed);
+  transform: translateY(calc(1.1 * var(--mm)));
+  box-shadow: 0 calc(.4 * var(--mm)) 0 var(--km-key-shadow);
+}
+.key--sub { background: var(--km-key-sub); box-shadow: 0 var(--km-key-depth) 0 var(--km-key-sub-shadow); }
+.key--sub:active { background: var(--km-key-sub); box-shadow: 0 calc(.4 * var(--mm)) 0 var(--km-key-sub-shadow); }
+.key--sub svg path { fill: none; stroke: var(--km-ink); stroke-width: 3; stroke-linejoin: round; }
+.key--sub svg path.x { stroke-linecap: round; }
+
+#ok {
+  background: var(--km-ok);
+  color: var(--km-ok-text);
+  border-radius: var(--km-r-key);
+  box-shadow: 0 var(--km-key-depth) 0 var(--km-ok-shadow);
+  font-size: var(--km-fs-key);
+  letter-spacing: .04em;
+  transition: transform 80ms, box-shadow 80ms, background .2s, color .2s;
+}
+#ok:active { transform: translateY(calc(1.1 * var(--mm))); box-shadow: 0 calc(.4 * var(--mm)) 0 var(--km-ok-shadow); }
+body[data-empty="1"] #ok,
+body[data-state="eating"] #ok,
+body[data-state="thanks"] #ok {
+  background: var(--km-off);
+  color: var(--km-off-text);
+  box-shadow: 0 var(--km-key-depth) 0 var(--km-off-shadow);
+}
+body[data-state="eating"] .key,
+body[data-state="thanks"] .key { background: var(--km-off); color: var(--km-off-text); }
+
+/* ---------- 隠し設定・較正 ---------- */
+
+#calibrate { background: rgba(59, 31, 58, .72); }
+.cal-card {
+  background: var(--km-panel);
+  border-radius: var(--km-r-panel);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
+  font-family: var(--km-font);
+}
+.cal-card h1 { margin: 0 0 12px; font-size: 26px; color: var(--km-ink); }
+.cal-card p { margin: 0; font-size: 14px; line-height: 1.8; font-weight: 500; color: #6E5B68; }
+#cal-stage { background: var(--km-mouth); border-radius: 20px; }
+#cal-coin {
+  border: 3px dashed var(--km-c500);
+  color: var(--km-c500);
+  font-size: 15px;
+}
+#cal-slider { accent-color: var(--km-lip); }
+.cal-scale { font-size: 12px; font-weight: 500; color: #8C7A86; }
+.cal-scale b { font-size: 14px; color: var(--km-ink); }
+.cal-buttons button {
+  border-radius: 16px;
+  font-family: var(--km-font);
+  font-weight: 800;
+  font-size: 16px;
+  background: #fff;
+  color: var(--km-ink);
+  box-shadow: 0 4px 0 var(--km-key-shadow);
+}
+#cal-close { background: var(--km-ok); color: #fff; box-shadow: 0 4px 0 var(--km-ok-shadow); }
+
+/* トレイの枠線は、お金を置いている間だけ見せる */
+body:not([data-state="input"]):not([data-state="eating"]) #tray { border-color: transparent; }

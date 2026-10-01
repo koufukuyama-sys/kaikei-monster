@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="monster" viewBox="0 0 820 1180" data-state="sleep" data-mode="komakai">
+  <rect width="820" height="1180" fill="#FFB547"></rect>
+  <g fill="#F29A2E" opacity=".55"><circle cx="60" cy="70" r="20"></circle><circle cx="98" cy="128" r="10"></circle><circle cx="764" cy="128" r="13"></circle></g>
+  <g class="cheeks" fill="#FF8C7A" opacity=".55">
+    <circle cx="190" cy="400" r="46"></circle><circle cx="630" cy="400" r="46"></circle>
+  </g>
+  <g id="eye-left">
+    <g class="eye-open-k" transform="translate(165 2)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#fff" stroke="#3B1F3A" stroke-width="6"></circle>
+      <circle cx="80" cy="80" r="20" fill="#3B1F3A"></circle>
+      <g fill="#3B1F3A"><circle cx="120" cy="80" r="4.5"></circle><circle cx="108.3" cy="108.3" r="4.5"></circle><circle cx="80" cy="120" r="4.5"></circle><circle cx="51.7" cy="108.3" r="4.5"></circle><circle cx="40" cy="80" r="4.5"></circle><circle cx="51.7" cy="51.7" r="4.5"></circle><circle cx="80" cy="40" r="4.5"></circle><circle cx="108.3" cy="51.7" r="4.5"></circle></g>
+      <circle cx="73" cy="73" r="6" fill="#fff"></circle>
+    </g>
+    <g class="eye-open-m" transform="translate(165 2)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#fff" stroke="#3B1F3A" stroke-width="6"></circle>
+      <circle cx="80" cy="80" r="42" fill="#3B1F3A"></circle><circle cx="65" cy="63" r="14" fill="#fff"></circle><circle cx="97" cy="97" r="5" fill="#fff"></circle>
+    </g>
+    <g class="eye-closed" transform="translate(160 170) scale(1.125)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#FFC56B" stroke="#3B1F3A" stroke-width="6"></circle>
+      <path d="M32 82 Q80 122 128 82" fill="none" stroke="#3B1F3A" stroke-width="8" stroke-linecap="round"></path>
+      <path d="M52 100 L44 116 M80 108 L80 126 M108 100 L116 116" stroke="#3B1F3A" stroke-width="6" stroke-linecap="round"></path>
+    </g>
+    <g class="eye-spiral" transform="translate(130 150) scale(1.4375)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#fff" stroke="#3B1F3A" stroke-width="6"></circle>
+      <path d="M80 76 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0 a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0 a30 30 0 0 1 -60 0" fill="none" stroke="#3B1F3A" stroke-width="7" stroke-linecap="round"></path>
+    </g>
+  </g>
+  <g id="eye-right">
+    <g class="eye-open-k" transform="translate(495 2)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#fff" stroke="#3B1F3A" stroke-width="6"></circle>
+      <circle cx="80" cy="80" r="20" fill="#3B1F3A"></circle>
+      <g fill="#3B1F3A"><circle cx="120" cy="80" r="4.5"></circle><circle cx="108.3" cy="108.3" r="4.5"></circle><circle cx="80" cy="120" r="4.5"></circle><circle cx="51.7" cy="108.3" r="4.5"></circle><circle cx="40" cy="80" r="4.5"></circle><circle cx="51.7" cy="51.7" r="4.5"></circle><circle cx="80" cy="40" r="4.5"></circle><circle cx="108.3" cy="51.7" r="4.5"></circle></g>
+      <circle cx="73" cy="73" r="6" fill="#fff"></circle>
+    </g>
+    <g class="eye-open-m" transform="translate(495 2)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#fff" stroke="#3B1F3A" stroke-width="6"></circle>
+      <circle cx="80" cy="80" r="42" fill="#3B1F3A"></circle><circle cx="65" cy="63" r="14" fill="#fff"></circle><circle cx="97" cy="97" r="5" fill="#fff"></circle>
+    </g>
+    <g class="eye-closed" transform="translate(480 170) scale(1.125)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#FFC56B" stroke="#3B1F3A" stroke-width="6"></circle>
+      <path d="M32 82 Q80 122 128 82" fill="none" stroke="#3B1F3A" stroke-width="8" stroke-linecap="round"></path>
+      <path d="M52 100 L44 116 M80 108 L80 126 M108 100 L116 116" stroke="#3B1F3A" stroke-width="6" stroke-linecap="round"></path>
+    </g>
+    <g class="eye-spiral" transform="translate(460 150) scale(1.4375)">
+      <circle cx="80" cy="86" r="64" fill="#F29A2E"></circle><circle cx="80" cy="76" r="64" fill="#fff" stroke="#3B1F3A" stroke-width="6"></circle>
+      <path d="M80 76 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0 a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0 a30 30 0 0 1 -60 0" fill="none" stroke="#3B1F3A" stroke-width="7" stroke-linecap="round"></path>
+    </g>
+  </g>
+  <g id="mouth">
+    <g class="mouth-closed">
+      <path d="M290 420 Q410 486 530 420" fill="none" stroke="#3B1F3A" stroke-width="12" stroke-linecap="round"></path>
+      <path d="M368 446 L384 474 L400 450Z" fill="#FFFDF7" stroke="#3B1F3A" stroke-width="4" stroke-linejoin="round"></path>
+    </g>
+    <g class="mouth-open">
+      <rect x="4" y="168" width="812" height="904" rx="72" fill="#E04E3C"></rect>
+      <rect x="12" y="176" width="796" height="888" rx="64" fill="#5B2140"></rect>
+      <path d="M82 176 Q110 216 138 176Z M172 176 Q200 216 228 176Z M592 176 Q620 216 648 176Z M682 176 Q710 216 738 176Z" fill="#FFFDF7"></path>
+      <rect id="mouth-tray" x="16" y="216" width="788" height="840" rx="36" fill="none" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="3" stroke-dasharray="14 12"></rect>
+    </g>
+    <g class="mouth-chew">
+      <path d="M190 620 Q410 560 630 620 Q650 700 410 730 Q170 700 190 620Z" fill="#E04E3C" stroke="#3B1F3A" stroke-width="8"></path>
+      <path class="seam" d="M215 650 Q262 625 310 650 T410 650 T510 650 T605 650" fill="none" stroke="#3B1F3A" stroke-width="9" stroke-linecap="round"></path>
+      <path d="M296 652 L314 690 L332 650Z" fill="#FFFDF7" stroke="#3B1F3A" stroke-width="4" stroke-linejoin="round"></path>
+    </g>
+  </g>
+  <g id="zzz" class="km-num" font-weight="800" fill="#FFFFFF" stroke="#3B1F3A" stroke-width="7" paint-order="stroke" stroke-linejoin="round">
+    <text x="640" y="190" font-size="46">z</text><text x="680" y="135" font-size="62">z</text><text x="728" y="80" font-size="82">Z</text>
+  </g>
+</svg>

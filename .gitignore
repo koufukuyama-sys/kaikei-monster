@@ -1,0 +1,4 @@
+.DS_Store
+*.aiff
+*.zip
+node_modules/

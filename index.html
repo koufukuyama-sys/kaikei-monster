@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="かいけいモンスター">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#FFB547">
+<meta name="description" content="3歳児のままごと用レジ。画面のお金の絵の上に本物のお金を並べて金額感を体で覚える。">
+<title>かいけいモンスター</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<!-- デザイン指定フォント。オフライン時は端末のヒラギノ丸ゴに自動で落ちる（README参照） -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&amp;display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/skin.css">
+</head>
+<body data-state="sleep" data-mode="fine" data-empty="1">
+
+<!-- ===================== SKIN: おかねのイラスト =====================
+     原本は skin/money.svg。差し替えるときはこのブロックごと入れ替える。
+     ★守ること: 本物の紙幣・硬貨に似せない（通貨及証券模造取締法）。
+     ★viewBox の縦横比は実寸比（お札 1500:760、硬貨は正方形）。大きさはJSが決める。
+     ====================================================================== -->
+<svg id="money-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="m-coin1" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="48" fill="#A9BFCB"></circle>
+      <circle cx="50" cy="50" r="42" fill="#E8EEF2"></circle>
+      <circle cx="50" cy="50" r="36" fill="none" stroke="#A9BFCB" stroke-opacity=".95" stroke-width="2.5"></circle>
+      <circle cx="50" cy="50" r="31" fill="none" stroke="#A9BFCB" stroke-opacity=".7" stroke-width="1.6"></circle>
+      <text x="50" y="62" text-anchor="middle" class="km-num" font-size="40" fill="#3B1F3A">1</text>
+      <text x="50" y="80" text-anchor="middle" class="km-num" font-size="12" fill="#3B1F3A">えん</text>
+    </symbol>
+    <symbol id="m-coin5" viewBox="0 0 100 100">
+      <path d="M2 50 A48 48 0 1 0 98 50 A48 48 0 1 0 2 50 Z M38.6 50 A11.4 11.4 0 1 1 61.4 50 A11.4 11.4 0 1 1 38.6 50 Z" fill="#C79A1C" fill-rule="evenodd"></path>
+      <path d="M8 50 A42 42 0 1 0 92 50 A42 42 0 1 0 8 50 Z M36 50 A14 14 0 1 1 64 50 A14 14 0 1 1 36 50 Z" fill="#F2C64B" fill-rule="evenodd"></path>
+      <circle cx="50" cy="50" r="30" fill="none" stroke="#C79A1C" stroke-opacity=".9" stroke-width="2.5" stroke-dasharray="5 6"></circle>
+      <text x="50" y="30" text-anchor="middle" class="km-num" font-size="26" fill="#3B1F3A">5</text>
+      <text x="50" y="83" text-anchor="middle" class="km-num" font-size="12" fill="#3B1F3A">えん</text>
+    </symbol>
+    <symbol id="m-coin10" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#E06F2A"></circle>
+    <circle cx="50" cy="50" r="42" fill="#FF9A52"></circle>
+    <circle cx="50" cy="50" r="36" fill="none" stroke="#FFFFFF" stroke-opacity=".7" stroke-width="2.5" stroke-dasharray="4 5"></circle>
+    <text x="50" y="61" text-anchor="middle" class="km-num" font-weight="800" font-size="36" fill="#3B1F3A">10</text>
+    <text x="50" y="80" text-anchor="middle" class="km-num" font-weight="800" font-size="12" fill="#3B1F3A">えん</text>
+    </symbol>
+    <symbol id="m-coin50" viewBox="0 0 100 100">
+    <path d="M2 50 A48 48 0 1 0 98 50 A48 48 0 1 0 2 50 Z M40.5 50 A9.5 9.5 0 1 1 59.5 50 A9.5 9.5 0 1 1 40.5 50 Z" fill="#94A8B3" fill-rule="evenodd"></path>
+    <path d="M8 50 A42 42 0 1 0 92 50 A42 42 0 1 0 8 50 Z M38 50 A12 12 0 1 1 62 50 A12 12 0 1 1 38 50 Z" fill="#CFDAE0" fill-rule="evenodd"></path>
+    <circle cx="50" cy="50" r="15" fill="none" stroke="#94A8B3" stroke-opacity=".9" stroke-width="2.5"></circle>
+    <text x="50" y="34" text-anchor="middle" class="km-num" font-weight="800" font-size="24" fill="#3B1F3A">50</text>
+    <text x="50" y="82" text-anchor="middle" class="km-num" font-weight="800" font-size="12" fill="#3B1F3A">えん</text>
+    </symbol>
+    <symbol id="m-coin100" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#9AADB8"></circle>
+    <circle cx="50" cy="50" r="45" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="0.1 6" stroke-linecap="round"></circle>
+    <circle cx="50" cy="50" r="40" fill="#D6E0E6"></circle>
+    <text x="50" y="59" text-anchor="middle" class="km-num" font-weight="800" font-size="30" fill="#3B1F3A">100</text>
+    <text x="50" y="77" text-anchor="middle" class="km-num" font-weight="800" font-size="12" fill="#3B1F3A">えん</text>
+    </symbol>
+    <symbol id="m-coin500" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#8DA1AD"></circle>
+    <path d="M50 6 L54 12 L61 7 L63 14 L71 11 L71 19 L79 18 L77 25 L85 26 L81 32 L88 36 L82 40 L88 46 L82 50 L88 54 L82 60 L88 64 L81 68 L85 74 L77 75 L79 82 L71 81 L71 89 L63 86 L61 93 L54 88 L50 94 L46 88 L39 93 L37 86 L29 89 L29 81 L21 82 L23 75 L15 74 L19 68 L12 64 L18 60 L12 54 L18 50 L12 46 L18 40 L12 36 L19 32 L15 26 L23 25 L21 18 L29 19 L29 11 L37 14 L39 7 L46 12 Z" fill="#C6D2D9"></path>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#8DA1AD" stroke-opacity=".85" stroke-width="2.5"></circle>
+    <text x="50" y="59" text-anchor="middle" class="km-num" font-weight="800" font-size="27" fill="#3B1F3A">500</text>
+    <text x="50" y="74" text-anchor="middle" class="km-num" font-weight="800" font-size="10" fill="#3B1F3A">えん</text>
+    </symbol>
+    <symbol id="m-bill1000" viewBox="0 0 1500 760">
+    <rect width="1500" height="760" rx="56" fill="#8E6BE0"></rect>
+    <rect x="18" y="18" width="1464" height="724" rx="44" fill="#C9AEFF"></rect>
+    <rect x="54" y="54" width="1392" height="652" rx="30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-dasharray="26 20"></rect>
+    <circle cx="300" cy="380" r="170" fill="#FFFFFF" fill-opacity=".55"></circle>
+    <circle cx="300" cy="392" r="120" fill="#FFB547"></circle>
+    <circle cx="258" cy="372" r="18" fill="#3B1F3A"></circle><circle cx="342" cy="372" r="18" fill="#3B1F3A"></circle>
+    <path d="M250 428 Q300 470 350 428" fill="none" stroke="#3B1F3A" stroke-width="12" stroke-linecap="round"></path>
+    <text x="900" y="480" text-anchor="middle" class="km-num" font-weight="800" font-size="290" fill="#3B1F3A">1000</text>
+    <text x="1300" y="610" text-anchor="middle" class="km-num" font-weight="800" font-size="90" fill="#3B1F3A">えん</text>
+    <circle cx="120" cy="120" r="22" fill="#FFFFFF"></circle><circle cx="1380" cy="120" r="22" fill="#FFFFFF"></circle>
+    <circle cx="120" cy="640" r="22" fill="#FFFFFF"></circle><circle cx="1380" cy="640" r="22" fill="#FFFFFF"></circle>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="stage">
+
+  <!-- ===================== SKIN: かいじゅう =====================
+       原本は skin/monster.svg。画面全体が怪獣の顔で、口の中が お金トレイ。
+       ============================================================ -->
+  <div id="monster">
+    <div id="face" aria-hidden="true">
+      <span class="freckle f1"></span><span class="freckle f2"></span><span class="freckle f3"></span>
+    </div>
+
+    <div id="zzz" aria-hidden="true"><span>z</span><span>z</span><span>Z</span></div>
+
+    <div id="eyes">
+      <button class="eye" id="eye-left" type="button" aria-label="おかねの だしかたを きりかえる">
+        <svg class="eye-svg" viewBox="0 0 160 160" aria-hidden="true">
+        <g class="eye-art eye-open eye-open--fine">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-white"/>
+          <circle cx="80" cy="80" r="20" class="eye-ink"/>
+          <g class="eye-ink">
+            <circle cx="120" cy="80" r="4.5"/><circle cx="108.3" cy="108.3" r="4.5"/>
+            <circle cx="80" cy="120" r="4.5"/><circle cx="51.7" cy="108.3" r="4.5"/>
+            <circle cx="40" cy="80" r="4.5"/><circle cx="51.7" cy="51.7" r="4.5"/>
+            <circle cx="80" cy="40" r="4.5"/><circle cx="108.3" cy="51.7" r="4.5"/>
+          </g>
+          <circle cx="73" cy="73" r="6" fill="#fff"/>
+        </g>
+        <g class="eye-art eye-open eye-open--coarse">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-white"/>
+          <circle cx="80" cy="80" r="42" class="eye-ink"/>
+          <circle cx="65" cy="63" r="14" fill="#fff"/><circle cx="97" cy="97" r="5" fill="#fff"/>
+        </g>
+        <g class="eye-art eye-closed" transform="translate(80 80) scale(1.125) translate(-80 -80)">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-lid"/>
+          <path d="M32 82 Q80 122 128 82" class="eye-lash" stroke-width="8"/>
+          <path d="M52 100 L44 116 M80 108 L80 126 M108 100 L116 116" class="eye-lash" stroke-width="6"/>
+        </g>
+        <g class="eye-art eye-spiral" transform="translate(80 80) scale(1.4375) translate(-80 -80)">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-white"/>
+          <path d="M80 76 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0 a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0 a30 30 0 0 1 -60 0"
+                class="eye-lash" stroke-width="7"/>
+        </g>
+        </svg>
+      </button>
+
+      <div id="mode-label">こまかい</div>
+
+      <button class="eye" id="eye-right" type="button" aria-label="おかねの だしかたを きりかえる">
+        <svg class="eye-svg" viewBox="0 0 160 160" aria-hidden="true">
+        <g class="eye-art eye-open eye-open--fine">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-white"/>
+          <circle cx="80" cy="80" r="20" class="eye-ink"/>
+          <g class="eye-ink">
+            <circle cx="120" cy="80" r="4.5"/><circle cx="108.3" cy="108.3" r="4.5"/>
+            <circle cx="80" cy="120" r="4.5"/><circle cx="51.7" cy="108.3" r="4.5"/>
+            <circle cx="40" cy="80" r="4.5"/><circle cx="51.7" cy="51.7" r="4.5"/>
+            <circle cx="80" cy="40" r="4.5"/><circle cx="108.3" cy="51.7" r="4.5"/>
+          </g>
+          <circle cx="73" cy="73" r="6" fill="#fff"/>
+        </g>
+        <g class="eye-art eye-open eye-open--coarse">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-white"/>
+          <circle cx="80" cy="80" r="42" class="eye-ink"/>
+          <circle cx="65" cy="63" r="14" fill="#fff"/><circle cx="97" cy="97" r="5" fill="#fff"/>
+        </g>
+        <g class="eye-art eye-closed" transform="translate(80 80) scale(1.125) translate(-80 -80)">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-lid"/>
+          <path d="M32 82 Q80 122 128 82" class="eye-lash" stroke-width="8"/>
+          <path d="M52 100 L44 116 M80 108 L80 126 M108 100 L116 116" class="eye-lash" stroke-width="6"/>
+        </g>
+        <g class="eye-art eye-spiral" transform="translate(80 80) scale(1.4375) translate(-80 -80)">
+          <circle cx="80" cy="86" r="64" class="eye-shade"/>
+          <circle cx="80" cy="76" r="64" class="eye-white"/>
+          <path d="M80 76 a5 5 0 0 1 10 0 a10 10 0 0 1 -20 0 a15 15 0 0 1 30 0 a20 20 0 0 1 -40 0 a25 25 0 0 1 50 0 a30 30 0 0 1 -60 0"
+                class="eye-lash" stroke-width="7"/>
+        </g>
+        </svg>
+      </button>
+    </div>
+
+    <!-- ねているときの口（とじた笑顔）とほっぺ -->
+    <svg class="mouth-art" id="mouth-closed-art" viewBox="0 330 820 220" aria-hidden="true">
+      <g class="cheeks"><circle cx="190" cy="400" r="46"/><circle cx="630" cy="400" r="46"/></g>
+      <path d="M290 420 Q410 486 530 420" class="lip-line" stroke-width="12"/>
+      <path d="M368 446 L384 474 L400 450Z" class="tooth"/>
+    </svg>
+
+    <!-- もぐもぐしているときの口とほっぺ -->
+    <svg class="mouth-art" id="mouth-chew-art" viewBox="0 520 820 260" aria-hidden="true">
+      <g class="cheeks cheeks--big"><circle cx="175" cy="645" r="86"/><circle cx="645" cy="645" r="86"/></g>
+      <path d="M190 620 Q410 560 630 620 Q650 700 410 730 Q170 700 190 620Z" class="chew-mouth"/>
+      <path class="seam" d="M215 650 Q262 625 310 650 T410 650 T510 650 T605 650"/>
+      <path d="M296 652 L314 690 L332 650Z" class="tooth"/>
+    </svg>
+    <div id="munch" aria-hidden="true">むしゃむしゃ</div>
+
+    <!-- あいている口。この中の #tray に実寸のお金が並ぶ -->
+    <div id="mouth">
+      <div id="mouth-inner">
+        <svg id="teeth" viewBox="0 0 820 40" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M118 0 Q146 40 174 0Z M208 0 Q236 40 264 0Z M556 0 Q584 40 612 0Z M646 0 Q674 40 702 0Z"/>
+        </svg>
+        <div id="tray"></div>
+        <div id="mouth-text">
+          <span class="line1">おかいけい</span><span class="line2">ありがとう</span>
+        </div>
+        <svg id="sparkles" viewBox="0 0 400 560" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M60 90l9 24 24 9-24 9-9 24-9-24-24-9 24-9z"/>
+          <path d="M330 60l7 19 19 7-19 7-7 19-7-19-19-7 19-7z"/>
+          <path d="M40 430l7 19 19 7-19 7-7 19-7-19-19-7 19-7z"/>
+          <path d="M340 410l9 24 24 9-24 9-9 24-9-24-24-9 24-9z"/>
+          <path d="M200 505l6 16 16 6-16 6-6 16-6-16-16-6 16-6z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <!-- =================== /SKIN: かいじゅう =================== -->
+
+  <!-- data-keypad="open" … テンキー全面 / "bar" … 細いバーに畳む -->
+  <div id="controls" data-keypad="open">
+    <button id="amount" type="button" aria-label="テンキーを ひらく／とじる">
+      <span id="amount-value"><span class="typed">0</span></span>
+      <span id="amount-unit">えん</span>
+    </button>
+
+    <div id="keypad">
+      <button class="key" type="button" data-key="1">1</button>
+      <button class="key" type="button" data-key="2">2</button>
+      <button class="key" type="button" data-key="3">3</button>
+      <button class="key key--sub" type="button" data-key="back" aria-label="ひとつ けす">
+        <svg viewBox="0 0 48 32" aria-hidden="true"><path d="M17 2h27a2 2 0 0 1 2 2v24a2 2 0 0 1-2 2H17L2 16z"/><path class="x" d="M25 10l14 12M39 10L25 22"/></svg>
+      </button>
+
+      <button class="key" type="button" data-key="4">4</button>
+      <button class="key" type="button" data-key="5">5</button>
+      <button class="key" type="button" data-key="6">6</button>
+      <button class="key key--sub" type="button" data-key="clear" aria-label="ぜんぶ けす">C</button>
+
+      <button class="key" type="button" data-key="7">7</button>
+      <button class="key" type="button" data-key="8">8</button>
+      <button class="key" type="button" data-key="9">9</button>
+
+      <button class="key key--zero" type="button" data-key="0">0</button>
+    </div>
+
+    <button id="ok" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 設定を開くための隠しホットスポット（右上を2秒長押し。見える印は置かない） -->
+<div id="corner-hotspot" aria-hidden="true"></div>
+
+<div id="calibrate" hidden>
+  <div class="cal-card">
+    <h1>おおきさ あわせ</h1>
+    <p>本物の500円玉を円の上に置き、ふちがぴったり重なるように<br>スライダーを動かしてください。</p>
+    <div id="cal-stage"><div id="cal-coin"><span>500</span></div></div>
+    <input id="cal-slider" type="range" min="3" max="9" step="0.01" aria-label="おおきさ">
+    <div class="cal-scale"><span>ちいさく</span><b id="cal-readout"></b><span>おおきく</span></div>
+    <div class="cal-buttons">
+      <button id="cal-reset" type="button">もとにもどす</button>
+      <button id="cal-close" type="button">とじる</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/money.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/calibrate.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/keypad.js"></script>
+<script src="js/monster.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
